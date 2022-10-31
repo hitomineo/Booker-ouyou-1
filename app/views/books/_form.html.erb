@@ -11,9 +11,6 @@
     </div>
   <% end %>
 
-
-
-<%= form_with model: @book do |f| %>
   <div>
     <%= f.label :title %>
     <%= f.text_field :title %>
@@ -25,7 +22,6 @@
   </div>
 
   <div>
-    <%= f.submit 'Create Book'%>
+    <%= f.submit %>
   </div>
-<% end %>
 <% end %>

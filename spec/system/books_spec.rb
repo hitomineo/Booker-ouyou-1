@@ -72,9 +72,23 @@ describe '投稿のテスト' do
       end
     end
     context 'book削除のテスト' do
+      it 'application.html.erbにjavascript_pack_tagを含んでいるか' do
+        is_exist = 0
+        open("app/views/layouts/application.html.erb").each do |line|
+          strip_line = line.chomp.gsub(" ", "")
+          if strip_line.include?("<%=javascript_pack_tag'application','data-turbolinks-track':'reload'%>")
+            is_exist = 1
+            break
+          end
+        end
+        expect(is_exist).to eq(1)
+      end
       it 'bookの削除' do
-        expect{ book.destroy }.to change{ Book.count }.by(-1)
-        # ※本来はダイアログのテストまで行うがココではデータが削除されることだけをテスト
+        before_delete_book = Book.count
+        click_link 'Destroy', match: :first
+        after_delete_book = Book.count
+        expect(before_delete_book - after_delete_book).to eq(1)
+        expect(current_path).to eq('/books')
       end
     end
   end
